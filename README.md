@@ -4,34 +4,29 @@ An AI-powered system for processing medical insurance claims using FastAPI and G
 
 ## Features
 
-- PDF document processing
-- AI-based document classification
-- Specialized agents for different document types
-- Data validation and consistency checking
-- Claim decision automation
+- This AI-powered backend system automates medical insurance claim processing by:
+
+- Accepting uploaded medical documents (bills, discharge summaries)
+
+- Classifying & extracting key data using AI (Gemini LLM)
+
+- Validating for completeness/accuracy
+
+- Approving/Rejecting claims with clear reasons
 
 ## Architecture
 
 The system follows a modular architecture with these components:
 
-1. **FastAPI Backend**: Handles file uploads and orchestrates the processing pipeline
-2. **Document Classifier**: Uses Gemini AI to classify uploaded documents
-3. **Specialized Agents**: Process specific document types (bills, discharge summaries, ID cards)
-4. **Validator**: Checks for missing documents and data consistency
-5. **Decision Engine**: Makes approve/reject decisions based on validation results
+- FastAPI:	Backend server (handles PDF uploads/API responses)
+- Google Gemini:	Reads documents and extracts structured data
+- LangChain:	Manages AI workflows and prompts
+- PDFplumber:	Extracts text from medical forms
+- AsyncIO:	Processes multiple claims simultaneously
 
 ## AI Tools Used
 
-1. **Cursor AI**: Used for:
-   - Generating boilerplate FastAPI code
-   - Creating test cases
-   - Debugging async issues in the file upload handler
-
-   Example prompts:
-   - "Create a FastAPI endpoint that accepts multiple PDF files and processes them asynchronously"
-   - "Generate pytest cases for testing file uploads with missing documents"
-
-2. **Gemini Pro**: Used for:
+**Gemini Pro**: Used for:
    - Document classification
    - Structured data extraction from documents
    - JSON schema validation
