@@ -4,24 +4,13 @@ import re
 import json
 import os
 class BillAgent:
-    """
-    Processes medical bill documents to extract structured information.
-    """
     
     def __init__(self):
         genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
         self.model = genai.GenerativeModel('gemini-2.5-flash')
     
     def process(self, text: str) -> dict:
-        """
-        Extract structured information from medical bill text.
         
-        Args:
-            text: Extracted text from the bill document
-            
-        Returns:
-            Dictionary with structured bill information
-        """
         prompt = f"""
         Extract the following information from this medical bill:
         - hospital_name
@@ -33,7 +22,7 @@ class BillAgent:
         Return ONLY a valid JSON object with these fields. Don't include any other text.
         
         Medical bill text:
-        {text[:10000]}  # Limiting to first 10000 chars for efficiency
+        {text[:10000]} 
         """
         
         try:

@@ -2,25 +2,13 @@ import google.generativeai as genai
 from typing import Literal
 import os
 class DocumentClassifier:
-    """
-    Classifies uploaded documents into types using Gemini Pro.
-    """
     
     def __init__(self):
         genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
         self.model = genai.GenerativeModel('gemini-2.5-flash')
     
     def classify_document(self, filename: str, text: str) -> Literal["bill", "discharge_summary", "id_card", "other"]:
-        """
-        Classify a document based on filename and content.
         
-        Args:
-            filename: Name of the uploaded file
-            text: Extracted text from the document
-            
-        Returns:
-            Document type classification
-        """
         prompt = f"""
         Classify the following medical document into one of these categories:
         - bill
@@ -29,7 +17,7 @@ class DocumentClassifier:
         - other
         
         Filename: {filename}
-        Content: {text[:5000]}  # Limiting to first 5000 chars for efficiency
+        Content: {text[:5000]}  
         
         Return only the category name, nothing else.
         """

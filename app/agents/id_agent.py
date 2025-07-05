@@ -2,24 +2,13 @@ import google.generativeai as genai
 import json
 import os
 class IDAgent:
-    """
-    Processes insurance ID card documents to extract structured information.
-    """
     
     def __init__(self):
         genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
         self.model = genai.GenerativeModel('gemini-2.5-flash')
     
     def process(self, text: str) -> dict:
-        """
-        Extract structured information from insurance ID card text.
-        
-        Args:
-            text: Extracted text from the ID card
-            
-        Returns:
-            Dictionary with structured ID information
-        """
+       
         prompt = f"""
         Extract the following information from this insurance ID card:
         - patient_name
@@ -37,13 +26,11 @@ class IDAgent:
         try:
             response = self.model.generate_content(prompt)
             
-            # Clean the response to extract just the JSON
             json_str = response.text.strip()
             json_str = json_str.replace('```json', '').replace('```', '').strip()
             
             data = json.loads(json_str)
             
-            # Convert to our schema
             id_data = {
                 "type": "id_card",
                 "patient_name": data.get("patient_name", ""),

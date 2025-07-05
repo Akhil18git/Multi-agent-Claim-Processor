@@ -31,7 +31,7 @@ class ValidationResult(BaseModel):
     discrepancies: List[str]
 
 class ClaimDecision(BaseModel):
-    status: str  # "approved" or "rejected"
+    status: str  
     reason: str
 
 class ClaimOutput(BaseModel):

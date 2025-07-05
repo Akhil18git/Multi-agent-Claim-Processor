@@ -31,17 +31,11 @@ validator = ClaimValidator()
 
 @app.post("/process-claim", response_model=ClaimOutput)
 async def process_claim(files: List[UploadFile] = File(...)):
-    """
-    Process medical insurance claim documents.
     
-    Accepts multiple PDF files (e.g., bill, ID card, discharge summary)
-    Returns structured claim data with validation and decision.
-    """
     try:
-        # 1. Process uploaded files
+        
         file_contents = await process_uploaded_files(files)
         
-        # 2. Classify documents
         classified_docs = []
         for file in file_contents:
             doc_type = classifier.classify_document(file["filename"], file["text"])
@@ -51,7 +45,6 @@ async def process_claim(files: List[UploadFile] = File(...)):
                 "type": doc_type
             })
         
-        # 3. Process with specialized agents
         processed_data = []
         for doc in classified_docs:
             if doc["type"] == "bill":
@@ -61,10 +54,8 @@ async def process_claim(files: List[UploadFile] = File(...)):
             elif doc["type"] == "id_card":
                 processed_data.append(id_agent.process(doc["text"]))
         
-        # 4. Validate claim
         validation_result = validator.validate(processed_data)
         
-        # 5. Make claim decision
         claim_decision = {
             "status": "approved" if not validation_result["missing_documents"] and not validation_result["discrepancies"] else "rejected",
             "reason": "All required documents present and data is consistent" 

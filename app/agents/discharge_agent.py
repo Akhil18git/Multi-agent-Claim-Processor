@@ -2,24 +2,13 @@ import google.generativeai as genai
 import json
 import os
 class DischargeAgent:
-    """
-    Processes discharge summary documents to extract structured information.
-    """
     
     def __init__(self):
         genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
         self.model = genai.GenerativeModel('gemini-2.5-flash')
     
     def process(self, text: str) -> dict:
-        """
-        Extract structured information from discharge summary text.
-        
-        Args:
-            text: Extracted text from the discharge summary
-            
-        Returns:
-            Dictionary with structured discharge information
-        """
+       
         prompt = f"""
         Extract the following information from this hospital discharge summary:
         - patient_name
@@ -32,19 +21,17 @@ class DischargeAgent:
         Return ONLY a valid JSON object with these fields. Don't include any other text.
         
         Discharge summary text:
-        {text[:10000]}  # Limiting to first 10000 chars for efficiency
+        {text[:10000]}  
         """
         
         try:
             response = self.model.generate_content(prompt)
             
-            # Clean the response to extract just the JSON
             json_str = response.text.strip()
             json_str = json_str.replace('```json', '').replace('```', '').strip()
             
             data = json.loads(json_str)
             
-            # Convert to our schema
             discharge_data = {
                 "type": "discharge_summary",
                 "patient_name": data.get("patient_name", ""),

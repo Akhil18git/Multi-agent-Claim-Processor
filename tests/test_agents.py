@@ -26,12 +26,10 @@ def validator():
     return ClaimValidator()
 
 def test_classifier(classifier):
-    # Mock test since actual classification requires LLM
     result = classifier.classify_document("bill.pdf", "Hospital Bill\nTotal: $1000")
     assert result in ["bill", "discharge_summary", "id_card", "other"]
 
 def test_bill_agent(bill_agent):
-    # Mock test
     bill_text = "Hospital Bill\nHospital: ABC Medical\nTotal: $1250.00\nDate: 2024-04-10"
     result = bill_agent.process(bill_text)
     assert result["type"] == "bill"
@@ -48,7 +46,6 @@ def test_validator(validator):
     assert not result["missing_documents"]
     assert not result["discrepancies"]
     
-    # Test with inconsistent data
     documents[2]["patient_name"] = "Jane Doe"
     result = validator.validate(documents)
     assert "Patient name mismatch" in result["discrepancies"][0]
